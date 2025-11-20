@@ -1,9 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var password = builder.AddParameter("db-password", true);
 
 #pragma warning disable ASPIREPROXYENDPOINTS001
-var dbServer = builder.AddPostgres("postgres-server", port: 5432, password: password)
+var dbServer = builder.AddPostgres("postgres-server", port: 5432)
     .WithImageTag("18.0")
     .WithEndpointProxySupport(false)
 #pragma warning restore ASPIREPROXYENDPOINTS001
