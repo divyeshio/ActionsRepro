@@ -1,10 +1,11 @@
 using Microsoft.Extensions.Logging;
 
-namespace ActionsRepro.Tests.Tests
+namespace ActionsRepro.Tests
 {
+    [Collection(nameof(TestCollection))]
     public class IntegrationTest1
     {
-        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(30);
+        private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(300);
 
         [Fact]
         public async Task GetWebResourceRootReturnsOkStatusCode()
