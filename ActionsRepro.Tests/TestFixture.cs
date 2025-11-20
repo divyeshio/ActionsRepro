@@ -27,6 +27,7 @@ public class TestFixture : IAsyncLifetime
 
         builder.Services.AddLogging(configure =>
         {
+            configure.AddConsole();
             configure.AddProvider(new XUnitLoggerProvider(TestContext.Current.TestOutputHelper));
             configure.SetMinimumLevel(LogLevel.Debug);
             // Override the logging filters from the app's configuration
