@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ActionsRepro.ApiService/ActionsRepro.ApiService.csproj" />
+  <Project Path="ActionsRepro.AppHost/ActionsRepro.AppHost.csproj" />
+  <Project Path="ActionsRepro.ServiceDefaults/ActionsRepro.ServiceDefaults.csproj" />
+  <Project Path="ActionsRepro.Tests/ActionsRepro.Tests.csproj" />
+  <Project Path="ActionsRepro.Web/ActionsRepro.Web.csproj" />
+</Solution>
