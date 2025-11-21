@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 
 namespace ActionsRepro.Tests
 {
-    [Collection(nameof(TestCollection))]
     public class IntegrationTest1
     {
         private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(300);
