@@ -22,39 +22,46 @@ public class TestFixture : IAsyncLifetime
     [Experimental("EXTEXP0001")]
     public async ValueTask InitializeAsync()
     {
-        var builder = await DistributedApplicationTestingBuilder
+        try
+        {
+            var builder = await DistributedApplicationTestingBuilder
             .CreateAsync<ActionsRepro_AppHost>(["DcpPublisher:RandomizePorts=false"], TestContext.Current.CancellationToken);
 
-        builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
+            builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
+            {
+                clientBuilder.RemoveAllResilienceHandlers();
+                clientBuilder.ConfigureHttpClient(configure => configure.Timeout = TimeSpan.FromSeconds(60));
+            });
+
+            builder.Services.AddLogging(configure =>
+            {
+                configure.AddConsole();
+                configure.SetMinimumLevel(LogLevel.Debug);
+                // Override the logging filters from the app's configuration
+                configure.AddFilter(builder.Environment.ApplicationName, LogLevel.Debug);
+                configure.AddFilter("Aspire.", LogLevel.Debug);
+            });
+
+            _app = await builder.BuildAsync(TestContext.Current.CancellationToken);
+
+            await _app.StartAsync(TestContext.Current.CancellationToken);
+
+            var httpClient = _app.CreateHttpClient("apiservice");
+
+            httpClient.BaseAddress = new Uri($"{_app.CreateHttpClient("apiservice").BaseAddress}api/");
+
+            ApiClient = httpClient;
+            FrontendClient = _app.CreateHttpClient("webfrontend");
+
+            var apiTask = _app.ResourceNotifications.WaitForResourceAsync("apiservice");
+            var frontendTask = _app.ResourceNotifications.WaitForResourceAsync("webfrontend");
+
+            await Task.WhenAll(apiTask, frontendTask);
+        }
+        catch (Exception ex)
         {
-            clientBuilder.RemoveAllResilienceHandlers();
-            clientBuilder.ConfigureHttpClient(configure => configure.Timeout = TimeSpan.FromSeconds(60));
-        });
-
-        builder.Services.AddLogging(configure =>
-        {
-            configure.AddConsole();
-            configure.SetMinimumLevel(LogLevel.Debug);
-            // Override the logging filters from the app's configuration
-            configure.AddFilter(builder.Environment.ApplicationName, LogLevel.Debug);
-            configure.AddFilter("Aspire.", LogLevel.Debug);
-        });
-
-        _app = await builder.BuildAsync(TestContext.Current.CancellationToken);
-
-        await _app.StartAsync(TestContext.Current.CancellationToken);
-
-        var httpClient = _app.CreateHttpClient("apiservice");
-
-        httpClient.BaseAddress = new Uri($"{_app.CreateHttpClient("apiservice").BaseAddress}api/");
-
-        ApiClient = httpClient;
-        FrontendClient = _app.CreateHttpClient("webfrontend");
-
-        var apiTask = _app.ResourceNotifications.WaitForResourceAsync("apiservice");
-        var frontendTask = _app.ResourceNotifications.WaitForResourceAsync("webfrontend");
-
-        await Task.WhenAll(apiTask, frontendTask);
+            TestContext.Current.SendDiagnosticMessage(ex.Message);
+        }
     }
 
     public async ValueTask DisposeAsync()
