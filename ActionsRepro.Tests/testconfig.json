@@ -4,6 +4,7 @@
     "parallelAlgorithm": "aggressive",
     "diagnosticMessages": true,
     "internalDiagnosticMessages": true,
-    "stopOnFail": true
+    "stopOnFail": true,
+    "showLiveOutput": true
   }
 }
