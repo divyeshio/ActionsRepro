@@ -1,6 +1,9 @@
 {
   "xUnit": {
     "culture": "en-GB",
-    "parallelAlgorithm": "aggressive"
+    "parallelAlgorithm": "aggressive",
+    "diagnosticMessages": true,
+    "internalDiagnosticMessages": true,
+    "stopOnFail": true
   }
 }

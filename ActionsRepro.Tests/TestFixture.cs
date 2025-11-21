@@ -43,8 +43,6 @@ public class TestFixture : IAsyncLifetime
 
         ApiClient = httpClient;
 
-        await _app.ResourceNotifications.WaitForResourceAsync("database");
-
         var apiTask = _app.ResourceNotifications.WaitForResourceAsync("apiservice");
 
         await apiTask;

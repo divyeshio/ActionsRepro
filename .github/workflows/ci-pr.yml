@@ -35,3 +35,5 @@ jobs:
           --no-build
           --report-trx
           --results-directory ${{ env.TEST_RESULTS_DIR }}
+          --verbosity diag
+          --output Detailed
