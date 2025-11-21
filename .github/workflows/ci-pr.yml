@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
+      - name: List tests
+        run: dotnet test ${{ env.SOLUTION_FILE }} --list-tests
+
       - name: Run tests
         env:
           DCP_DIAGNOSTICS_LOG_LEVEL: debug
