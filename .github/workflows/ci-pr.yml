@@ -29,6 +29,8 @@ jobs:
       - name: Run tests
         env:
           DCP_DIAGNOSTICS_LOG_LEVEL: debug
+          TESTINGPLATFORM_DIAGNOSTIC: 1
+          TESTINGPLATFORM_DIAGNOSTIC_VERBOSITY: Debug
         run: >-
           dotnet test --solution ${{ env.SOLUTION_FILE }}
           --configuration Release
@@ -37,3 +39,5 @@ jobs:
           --results-directory ${{ env.TEST_RESULTS_DIR }}
           --verbosity diag
           --output Detailed
+          --hangdump
+          --crashdump
