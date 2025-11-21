@@ -30,7 +30,7 @@ jobs:
         env:
           DCP_DIAGNOSTICS_LOG_LEVEL: debug
         run: >-
-          dotnet test ${{ env.SOLUTION_FILE }}
+          dotnet test --solution ${{ env.SOLUTION_FILE }}
           --configuration Release
           --no-build
           --logger trx
