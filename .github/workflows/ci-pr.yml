@@ -33,5 +33,5 @@ jobs:
           dotnet test --solution ${{ env.SOLUTION_FILE }}
           --configuration Release
           --no-build
-          --logger trx
+          --report-trx
           --results-directory ${{ env.TEST_RESULTS_DIR }}
