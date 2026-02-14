@@ -21,7 +21,9 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Trust Dev Cert
-        run: dotnet dev-certs https --clean && dotnet dev-certs https --trust
+        run: dotnet dev-certs https --trust
+        env:
+          WSL_INTEROP: ""
 
       - name: Restore
         run: dotnet restore ${{ env.SOLUTION_FILE }}
