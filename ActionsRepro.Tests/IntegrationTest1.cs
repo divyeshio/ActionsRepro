@@ -1,17 +1,25 @@
 using System.Diagnostics.CodeAnalysis;
-using Xunit.v3;
 
 namespace ActionsRepro.Tests
 {
     public class IntegrationTest1
     {
-        private readonly TestFixture _fixture = new TestFixture(new TestOutputHelper());
+        private readonly ITestOutputHelper _outputHelper;
+
+        public IntegrationTest1(ITestOutputHelper outputHelper)
+        {
+            _outputHelper = outputHelper;
+            _fixture = new(outputHelper);
+        }
+
+        private readonly TestFixture _fixture;
 
 
         [Fact]
         [Experimental("EXTEXP0001")]
         public async Task GetWebResourceRootReturnsOkStatusCode()
         {
+            _outputHelper.WriteLine("Initializing...");
             await _fixture.InitializeAsync();
 
             // Act

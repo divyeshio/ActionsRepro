@@ -27,7 +27,7 @@ public class TestFixture : IAsyncLifetime
         try
         {
             var builder = await DistributedApplicationTestingBuilder
-            .CreateAsync<ActionsRepro_AppHost>(["DcpPublisher:RandomizePorts=false"], TestContext.Current.CancellationToken);
+            .CreateAsync<ActionsRepro_AppHost>(["DcpPublisher:RandomizePorts=false"]);
 
             builder.Services.ConfigureHttpClientDefaults(clientBuilder =>
             {
@@ -45,9 +45,9 @@ public class TestFixture : IAsyncLifetime
                 configure.AddFilter("Aspire.", LogLevel.Trace);
             });
 
-            _app = await builder.BuildAsync(TestContext.Current.CancellationToken);
+            _app = await builder.BuildAsync();
 
-            await _app.StartAsync(TestContext.Current.CancellationToken);
+            await _app.StartAsync();
 
             var httpClient = _app.CreateHttpClient("apiservice");
 
