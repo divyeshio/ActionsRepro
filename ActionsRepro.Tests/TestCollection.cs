@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Logging;
 using Projects;
 using System.Diagnostics.CodeAnalysis;
@@ -15,6 +16,12 @@ public class TestFixture : IAsyncLifetime
 {
     private DistributedApplication _app = null!;
 
+    private readonly ITestOutputHelper testOutputHelper;
+
+    public TestFixture(ITestOutputHelper testOutputHelper)
+    {
+        this.testOutputHelper = testOutputHelper;
+    }
 
     public HttpClient ApiClient { get; private set; } = null!;
     public HttpClient FrontendClient { get; private set; } = null!;
@@ -35,6 +42,7 @@ public class TestFixture : IAsyncLifetime
 
             builder.Services.AddLogging(configure =>
             {
+                configure.AddProvider(new XUnitLoggerProvider(testOutputHelper, appendScope: false));
                 configure.AddConsole();
                 configure.SetMinimumLevel(LogLevel.Trace);
                 // Override the logging filters from the app's configuration
