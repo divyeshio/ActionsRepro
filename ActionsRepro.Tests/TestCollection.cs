@@ -36,10 +36,10 @@ public class TestFixture : IAsyncLifetime
             builder.Services.AddLogging(configure =>
             {
                 configure.AddConsole();
-                configure.SetMinimumLevel(LogLevel.Debug);
+                configure.SetMinimumLevel(LogLevel.Trace);
                 // Override the logging filters from the app's configuration
-                configure.AddFilter(builder.Environment.ApplicationName, LogLevel.Debug);
-                configure.AddFilter("Aspire.", LogLevel.Debug);
+                configure.AddFilter(builder.Environment.ApplicationName, LogLevel.Trace);
+                configure.AddFilter("Aspire.", LogLevel.Trace);
             });
 
             _app = await builder.BuildAsync(TestContext.Current.CancellationToken);

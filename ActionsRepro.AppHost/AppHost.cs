@@ -1,10 +1,12 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var password = builder.AddParameter("db-password", true);
+var defaultParam = new GenerateParameterDefault();
+
+var password = builder.AddParameter("db-password", defaultParam, true);
 
 #pragma warning disable ASPIREPROXYENDPOINTS001
 var dbServer = builder.AddPostgres("postgres-server", port: 5432, password: password)
-    .WithImageTag("18.0")
+    .WithImageTag("18.1")
     .WithEndpointProxySupport(false)
 #pragma warning restore ASPIREPROXYENDPOINTS001
     .WithLifetime(ContainerLifetime.Persistent);
@@ -24,10 +26,10 @@ var apiService = builder.AddProject<Projects.ActionsRepro_ApiService>("apiservic
     .WaitFor(pgConnectionString)
     .WithHttpHealthCheck("/health");
 
+
 builder.AddProject<Projects.ActionsRepro_Web>("webfrontend")
-    .WithExternalHttpEndpoints()
     .WithHttpHealthCheck("/health")
-    .WithReference(apiService)
-    .WaitFor(apiService);
+    .WaitFor(apiService)
+    .WithReference(apiService);
 
 builder.Build().Run();
