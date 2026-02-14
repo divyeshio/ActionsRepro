@@ -15,8 +15,8 @@ namespace ActionsRepro.Tests
             await _fixture.InitializeAsync();
 
             // Act
-            using var response = await _fixture.ApiClient.GetAsync("/", TestContext.Current.CancellationToken);
-            using var response2 = await _fixture.FrontendClient.GetAsync("/", TestContext.Current.CancellationToken);
+            using var response = await _fixture.ApiClient.GetAsync("/");
+            using var response2 = await _fixture.FrontendClient.GetAsync("/");
 
             // Assert
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);

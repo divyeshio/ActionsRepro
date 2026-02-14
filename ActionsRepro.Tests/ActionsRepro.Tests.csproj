@@ -9,7 +9,7 @@
 	<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
     <OutputType>Exe</OutputType>
     <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-    <TestingPlatformCaptureOutput>false</TestingPlatformCaptureOutput>
+    <TestingPlatformCaptureOutput>true</TestingPlatformCaptureOutput>
   </PropertyGroup>
 
    <ItemGroup>

@@ -7,11 +7,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: CaptureTrace]
 namespace ActionsRepro.Tests;
 
-[CollectionDefinition(nameof(TestCollection))]
-public class TestCollection : ICollectionFixture<TestFixture>
-{
-}
-
 public class TestFixture : IAsyncLifetime
 {
     private DistributedApplication _app = null!;
