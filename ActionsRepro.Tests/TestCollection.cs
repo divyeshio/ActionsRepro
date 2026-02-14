@@ -3,13 +3,13 @@ using Microsoft.Extensions.Logging;
 using Projects;
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: CaptureTrace]
 namespace ActionsRepro.Tests;
 
 [CollectionDefinition(nameof(TestCollection))]
 public class TestCollection : ICollectionFixture<TestFixture>
 {
 }
-
 
 public class TestFixture : IAsyncLifetime
 {
